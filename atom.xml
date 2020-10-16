@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://crush2001.github.io</id>
     <title>Crush</title>
-    <updated>2020-10-16T03:46:54.873Z</updated>
+    <updated>2020-10-16T03:48:09.150Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://crush2001.github.io"/>
     <link rel="self" href="https://crush2001.github.io/atom.xml"/>
-    <subtitle>如果尚有余力，就去保护美好的东西。</subtitle>
+    <subtitle>如果尚有余力，就去保护美好的东西</subtitle>
     <logo>https://crush2001.github.io/images/avatar.png</logo>
     <icon>https://crush2001.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Crush</rights>

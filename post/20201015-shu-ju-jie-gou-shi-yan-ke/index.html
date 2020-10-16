@@ -1,0 +1,412 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>2020.10.15数据结构实验课 | Crush</title>
+<link rel="shortcut icon" href="https://crush2001.github.io/favicon.ico?v=1602848829780">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://crush2001.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="2020.10.15数据结构实验课 | Crush - Atom Feed" href="https://crush2001.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="7-1 单链表按值操作 (50分)
+对值递增有序的单链表进行以下操作：若表中存在值为x的结点，则将它从表中删除；否则，就往表中插入一个值为x的结点，并保持表值递增有序的性质不变（假设表中没有值相同的元素）。处理后若为空表则不输出。
+输入格式..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://crush2001.github.io">
+  <img class="avatar" src="https://crush2001.github.io/images/avatar.png?v=1602848829780" alt="">
+  </a>
+  <h1 class="site-title">
+    Crush
+  </h1>
+  <p class="site-description">
+    如果尚有余力，就去保护美好的东西
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/crush2001" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              2020.10.15数据结构实验课
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-10-16
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="7-1-单链表按值操作-50分">7-1 单链表按值操作 (50分)</h2>
+<p>对值递增有序的单链表进行以下操作：若表中存在值为x的结点，则将它从表中删除；否则，就往表中插入一个值为x的结点，并保持表值递增有序的性质不变（假设表中没有值相同的元素）。处理后若为空表则不输出。</p>
+<h3 id="输入格式">输入格式:</h3>
+<p>每组数据包括3行，第一行表示单链表的长度n（0&lt;=n&lt;50）；第二行表示单链表的所有元素；第三行表示x值。</p>
+<h3 id="输出格式">输出格式:</h3>
+<p>输出执行操作后的单链表，元素之间用一个空格分隔。</p>
+<h3 id="输入样例">输入样例:</h3>
+<p>在这里给出一组输入。例如：</p>
+<pre><code class="language-in">5
+1 3 5 7 9
+3
+5
+1 3 5 7 9
+4
+</code></pre>
+<h3 id="输出样例">输出样例:</h3>
+<p>在这里给出相应的输出。例如：</p>
+<pre><code class="language-out">1 5 7 9
+1 3 4 5 7 9
+</code></pre>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+typedef struct LNode //创建单链表指针结构体（结构指针）
+{
+	int data; //结点的数据域
+	struct LNode *next; //结点的指针域
+}LNode,*LinkList;
+void Creat(LinkList &amp;L,int n) //创建单链表函数
+{
+	int i;
+	LNode *p,*r; //创建指针
+	L=new LNode; //使用尾插法
+	L-&gt;next=NULL; //先建立一个带头结点的空链表
+	r=L; //尾指针r指向头结点
+	for(i=0;i&lt;n;i++)
+	{
+		p=new LNode; //生成新结点
+		cin&gt;&gt;p-&gt;data; //输入元素值赋给新结点*p的数据域
+		p-&gt;next=NULL;r-&gt;next=p; //将新结点*p插入尾结点*r之后
+		r=p; //r指向新的尾结点*p
+	}
+}
+void Change(LinkList &amp;L,int x) //主功能函数
+{
+	LNode *p,*q,*s; //创建指针
+	q=L; //头结点赋给q
+	p=q-&gt;next; //p指向q的指针域
+	while(p &amp;&amp; p-&gt;data&lt;x) //如果p节点存在且p的数据域比目标数x小
+	{
+		q=p; //p结点赋给q结点
+		p=p-&gt;next; //继续遍历单链表
+	}
+	if(p &amp;&amp; p-&gt;data==x) //如果单链表元素中存在与x等值的元素
+	{
+		q-&gt;next=p-&gt;next; //p的指针域赋给q的指针域，相当于跳过p的数据域
+		delete p; //删除p结点
+	}
+	else
+	{
+		s=new LNode;
+		s-&gt;data=x;
+		s-&gt;next=p;
+		q-&gt;next=s; //以上三行为插入数据操作
+	}
+}
+void Print(LinkList L) //Print()函数，依序输出单链表
+{
+	LNode *p=L-&gt;next;
+	if(p==NULL)
+	{
+		return; //若表为空，退出函数执行
+	}
+	while(p-&gt;next) //若p的指针域不为空（即除单链表最后一个元素外），执行循环
+	{
+		cout&lt;&lt;p-&gt;data&lt;&lt;&quot; &quot;; //打印单链表元素（除单链表最后一个元素外）
+		p=p-&gt;next; //指针移动
+	}
+	cout&lt;&lt;p-&gt;data&lt;&lt;endl; //打印单链表的最后一个元素
+}
+int main()
+{
+	int n,x;
+	while(cin&gt;&gt;n) //循环输入单链表长度n
+	{
+		LinkList L; //初始化单链表
+		Creat(L,n); //创建单链表
+		cin&gt;&gt;x; //输入目标值x
+		Change(L,x); //调用Change()函数，依照题意对单链表进行操作
+		Print(L); //输出经过操作的单链表
+	}
+	return 0;
+}
+
+</code></pre>
+<h2 id="7-2-单链表删除相同值-50分">7-2 单链表删除相同值 (50分)</h2>
+<p>单链表A是非递减有序数列，编写算法，删除表中值相同的多余节点，可能有多组相同值。</p>
+<h3 id="输入格式-2">输入格式:</h3>
+<p>输入包含多组测试数据，每组测试数据第一行是一个n，表示有n个数输入，第二行是n个数，当n为零时结束(n&gt;=0)。</p>
+<h3 id="输出格式-2">输出格式:</h3>
+<p>每组输出占一行，输出删除相同值后的列表，每两个数据之间有一个空格。</p>
+<h3 id="输入样例-2">输入样例:</h3>
+<p>在这里给出一组输入。例如：</p>
+<pre><code class="language-in">5
+1 2 2 3 3
+6
+1 1 1 1 1 1
+6
+1 2 3 4 5 6
+0
+</code></pre>
+<h3 id="输出样例-2">输出样例:</h3>
+<p>在这里给出相应的输出。例如：</p>
+<pre><code class="language-out">1 2 3
+1
+1 2 3 4 5 6
+</code></pre>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+typedef struct LNode //创建单链表指针结构体（结构指针）
+{
+	int data; //结点的数据域
+	struct LNode *next; //结点的指针域
+}LNode,*LinkList;
+void Creat(LinkList &amp;L,int n) //创建单链表函数
+{
+	int i;
+	LNode *p,*r; //创建指针
+	L=new LNode; //使用尾插法
+	L-&gt;next=NULL; //先建立一个带头结点的空链表
+	r=L; //尾指针r指向头结点
+	for(i=0;i&lt;n;i++)
+	{
+		p=new LNode; //生成新结点
+		cin&gt;&gt;p-&gt;data; //输入元素值赋给新结点*p的数据域
+		p-&gt;next=NULL; r-&gt;next=p; //将新结点*p插入尾结点*r之后
+		r=p; //r指向新的尾结点*p
+	}
+}
+void Delete(LinkList &amp;L) //主功能函数
+{
+	LNode *p,*q,*s; //创建指针
+	p=L-&gt;next; //头结点的指针域赋给p
+	q=p-&gt;next; //p的指针域赋给q
+	while(p-&gt;next) //若p的指针域不为空，执行循环
+	{
+		if(p-&gt;data==q-&gt;data) //如果p的数据域与q的数据域等值
+		{
+			s=q; //q结点赋给s结点
+			p-&gt;next=q-&gt;next; //q的指针域赋给p的指针域
+			q=q-&gt;next; //q的指针域赋给q（即跳过q的数据域）
+			delete s; //删除s结点
+		}
+		else //其他情况，指针继续移动，查找重复的单链表元素
+		{
+			p=p-&gt;next;
+			q=q-&gt;next;
+		}
+	}
+}
+void Print(LinkList L) //Print()函数，依序输出单链表
+{
+	LNode *p=L-&gt;next;
+	if(p==NULL)
+	{
+		return; //若表为空，退出函数执行
+	}
+	while(p-&gt;next) //若p的指针域不为空（即除单链表最后一个元素外），执行循环
+	{
+		cout&lt;&lt;p-&gt;data&lt;&lt;&quot; &quot;; //打印单链表元素（除单链表最后一个元素外）
+		p=p-&gt;next; //指针移动
+	}
+	cout&lt;&lt;p-&gt;data&lt;&lt;endl; //打印单链表的最后一个元素
+}
+int main()
+{
+	int n;
+	while(cin&gt;&gt;n) //循环输入单链表长度n
+	{
+		LinkList L; //初始化单链表
+		if(n==0)
+		{
+			return 0; //如果初始表长n为0，结束程序
+		}
+		else //初始表长不为0
+		{
+			Creat(L,n); //创建单链表
+			Delete(L); //调用Delete()函数，依照题意对单链表进行操作
+			Print(L); //输出经过操作的单链表
+		}
+	}
+	return 0;
+}
+
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#7-1-%E5%8D%95%E9%93%BE%E8%A1%A8%E6%8C%89%E5%80%BC%E6%93%8D%E4%BD%9C-50%E5%88%86">7-1 单链表按值操作 (50分)</a>
+<ul>
+<li><a href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F">输入格式:</a></li>
+<li><a href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F">输出格式:</a></li>
+<li><a href="#%E8%BE%93%E5%85%A5%E6%A0%B7%E4%BE%8B">输入样例:</a></li>
+<li><a href="#%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B">输出样例:</a></li>
+</ul>
+</li>
+<li><a href="#7-2-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%88%A0%E9%99%A4%E7%9B%B8%E5%90%8C%E5%80%BC-50%E5%88%86">7-2 单链表删除相同值 (50分)</a>
+<ul>
+<li><a href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F-2">输入格式:</a></li>
+<li><a href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F-2">输出格式:</a></li>
+<li><a href="#%E8%BE%93%E5%85%A5%E6%A0%B7%E4%BE%8B-2">输入样例:</a></li>
+<li><a href="#%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B-2">输出样例:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://crush2001.github.io/post/hello-gridea/">
+              <h3 class="post-title">
+                Hello Gridea
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '6ca52a9544d3aa40a7b8',
+    clientSecret: 'fa0630136e48e768c73471731c6e7b14bee5b48e',
+    repo: 'crush2001.github.io',
+    owner: 'crush2001',
+    admin: ['crush2001'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://crush2001.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

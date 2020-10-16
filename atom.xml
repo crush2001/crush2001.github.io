@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://crush2001.github.io</id>
     <title>Crush</title>
-    <updated>2020-10-16T10:23:01.101Z</updated>
+    <updated>2020-10-16T11:47:18.323Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://crush2001.github.io"/>
     <link rel="self" href="https://crush2001.github.io/atom.xml"/>
@@ -10,6 +10,208 @@
     <logo>https://crush2001.github.io/images/avatar.png</logo>
     <icon>https://crush2001.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Crush</rights>
+    <entry>
+        <title type="html"><![CDATA[2020.10.15数据结构实验课]]></title>
+        <id>https://crush2001.github.io/post/20201015-shu-ju-jie-gou-shi-yan-ke/</id>
+        <link href="https://crush2001.github.io/post/20201015-shu-ju-jie-gou-shi-yan-ke/">
+        </link>
+        <updated>2020-10-16T10:25:47.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="7-1-单链表按值操作-50分">7-1 单链表按值操作 (50分)</h2>
+<p>对值递增有序的单链表进行以下操作：若表中存在值为x的结点，则将它从表中删除；否则，就往表中插入一个值为x的结点，并保持表值递增有序的性质不变（假设表中没有值相同的元素）。处理后若为空表则不输出。</p>
+<h3 id="输入格式">输入格式:</h3>
+<p>每组数据包括3行，第一行表示单链表的长度n（0&lt;=n&lt;50）；第二行表示单链表的所有元素；第三行表示x值。</p>
+<h3 id="输出格式">输出格式:</h3>
+<p>输出执行操作后的单链表，元素之间用一个空格分隔。</p>
+<h3 id="输入样例">输入样例:</h3>
+<p>在这里给出一组输入。例如：</p>
+<pre><code class="language-in">5
+1 3 5 7 9
+3
+5
+1 3 5 7 9
+4
+</code></pre>
+<h3 id="输出样例">输出样例:</h3>
+<p>在这里给出相应的输出。例如：</p>
+<pre><code class="language-out">1 5 7 9
+1 3 4 5 7 9
+</code></pre>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+typedef struct LNode //创建单链表指针结构体（结构指针）
+{
+	int data; //结点的数据域
+	struct LNode *next; //结点的指针域
+}LNode,*LinkList;
+void Creat(LinkList &amp;L,int n) //创建单链表函数
+{
+	int i;
+	LNode *p,*r; //创建指针
+	L=new LNode; //使用尾插法
+	L-&gt;next=NULL; //先建立一个带头结点的空链表
+	r=L; //尾指针r指向头结点
+	for(i=0;i&lt;n;i++)
+	{
+		p=new LNode; //生成新结点
+		cin&gt;&gt;p-&gt;data; //输入元素值赋给新结点*p的数据域
+		p-&gt;next=NULL;r-&gt;next=p; //将新结点*p插入尾结点*r之后
+		r=p; //r指向新的尾结点*p
+	}
+}
+void Change(LinkList &amp;L,int x) //主功能函数
+{
+	LNode *p,*q,*s; //创建指针
+	q=L; //头结点赋给q
+	p=q-&gt;next; //p指向q的指针域
+	while(p &amp;&amp; p-&gt;data&lt;x) //如果p节点存在且p的数据域比目标数x小
+	{
+		q=p; //p结点赋给q结点
+		p=p-&gt;next; //继续遍历单链表
+	}
+	if(p &amp;&amp; p-&gt;data==x) //如果单链表元素中存在与x等值的元素
+	{
+		q-&gt;next=p-&gt;next; //p的指针域赋给q的指针域，相当于跳过p的数据域
+		delete p; //删除p结点
+	}
+	else
+	{
+		s=new LNode;
+		s-&gt;data=x;
+		s-&gt;next=p;
+		q-&gt;next=s; //以上三行为插入数据操作
+	}
+}
+void Print(LinkList L) //Print()函数，依序输出单链表
+{
+	LNode *p=L-&gt;next;
+	if(p==NULL)
+	{
+		return; //若表为空，退出函数执行
+	}
+	while(p-&gt;next) //若p的指针域不为空（即除单链表最后一个元素外），执行循环
+	{
+		cout&lt;&lt;p-&gt;data&lt;&lt;&quot; &quot;; //打印单链表元素（除单链表最后一个元素外）
+		p=p-&gt;next; //指针移动
+	}
+	cout&lt;&lt;p-&gt;data&lt;&lt;endl; //打印单链表的最后一个元素
+}
+int main()
+{
+	int n,x;
+	while(cin&gt;&gt;n) //循环输入单链表长度n
+	{
+		LinkList L; //初始化单链表
+		Creat(L,n); //创建单链表
+		cin&gt;&gt;x; //输入目标值x
+		Change(L,x); //调用Change()函数，依照题意对单链表进行操作
+		Print(L); //输出经过操作的单链表
+	}
+	return 0;
+}
+
+</code></pre>
+<h2 id="7-2-单链表删除相同值-50分">7-2 单链表删除相同值 (50分)</h2>
+<p>单链表A是非递减有序数列，编写算法，删除表中值相同的多余节点，可能有多组相同值。</p>
+<h3 id="输入格式-2">输入格式:</h3>
+<p>输入包含多组测试数据，每组测试数据第一行是一个n，表示有n个数输入，第二行是n个数，当n为零时结束(n&gt;=0)。</p>
+<h3 id="输出格式-2">输出格式:</h3>
+<p>每组输出占一行，输出删除相同值后的列表，每两个数据之间有一个空格。</p>
+<h3 id="输入样例-2">输入样例:</h3>
+<p>在这里给出一组输入。例如：</p>
+<pre><code class="language-in">5
+1 2 2 3 3
+6
+1 1 1 1 1 1
+6
+1 2 3 4 5 6
+0
+</code></pre>
+<h3 id="输出样例-2">输出样例:</h3>
+<p>在这里给出相应的输出。例如：</p>
+<pre><code class="language-out">1 2 3
+1
+1 2 3 4 5 6
+</code></pre>
+<pre><code class="language-c++">#include&lt;iostream&gt;
+using namespace std;
+typedef struct LNode //创建单链表指针结构体（结构指针）
+{
+	int data; //结点的数据域
+	struct LNode *next; //结点的指针域
+}LNode,*LinkList;
+void Creat(LinkList &amp;L,int n) //创建单链表函数
+{
+	int i;
+	LNode *p,*r; //创建指针
+	L=new LNode; //使用尾插法
+	L-&gt;next=NULL; //先建立一个带头结点的空链表
+	r=L; //尾指针r指向头结点
+	for(i=0;i&lt;n;i++)
+	{
+		p=new LNode; //生成新结点
+		cin&gt;&gt;p-&gt;data; //输入元素值赋给新结点*p的数据域
+		p-&gt;next=NULL; r-&gt;next=p; //将新结点*p插入尾结点*r之后
+		r=p; //r指向新的尾结点*p
+	}
+}
+void Delete(LinkList &amp;L) //主功能函数
+{
+	LNode *p,*q,*s; //创建指针
+	p=L-&gt;next; //头结点的指针域赋给p
+	q=p-&gt;next; //p的指针域赋给q
+	while(p-&gt;next) //若p的指针域不为空，执行循环
+	{
+		if(p-&gt;data==q-&gt;data) //如果p的数据域与q的数据域等值
+		{
+			s=q; //q结点赋给s结点
+			p-&gt;next=q-&gt;next; //q的指针域赋给p的指针域
+			q=q-&gt;next; //q的指针域赋给q（即跳过q的数据域）
+			delete s; //删除s结点
+		}
+		else //其他情况，指针继续移动，查找重复的单链表元素
+		{
+			p=p-&gt;next;
+			q=q-&gt;next;
+		}
+	}
+}
+void Print(LinkList L) //Print()函数，依序输出单链表
+{
+	LNode *p=L-&gt;next;
+	if(p==NULL)
+	{
+		return; //若表为空，退出函数执行
+	}
+	while(p-&gt;next) //若p的指针域不为空（即除单链表最后一个元素外），执行循环
+	{
+		cout&lt;&lt;p-&gt;data&lt;&lt;&quot; &quot;; //打印单链表元素（除单链表最后一个元素外）
+		p=p-&gt;next; //指针移动
+	}
+	cout&lt;&lt;p-&gt;data&lt;&lt;endl; //打印单链表的最后一个元素
+}
+int main()
+{
+	int n;
+	while(cin&gt;&gt;n) //循环输入单链表长度n
+	{
+		LinkList L; //初始化单链表
+		if(n==0)
+		{
+			return 0; //如果初始表长n为0，结束程序
+		}
+		else //初始表长不为0
+		{
+			Creat(L,n); //创建单链表
+			Delete(L); //调用Delete()函数，依照题意对单链表进行操作
+			Print(L); //输出经过操作的单链表
+		}
+	}
+	return 0;
+}
+
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://crush2001.github.io/post/hello-gridea/</id>
